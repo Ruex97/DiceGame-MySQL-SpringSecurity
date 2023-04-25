@@ -19,6 +19,10 @@ public class ApplicationConfig {
 
     private final PlayerRepository repository;
 
+    /**
+     * This bean is responsible for loading user-specific data based on the username provided by the user during login
+     * @return an implementation of the UserDetailsService interface
+     */
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> repository.findByName(username)
@@ -37,11 +41,22 @@ public class ApplicationConfig {
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
     }
+
+    /**
+     * The PasswordEncoder is used to encode the user's password before comparing it with the stored password.
+     * @return returns an instance of BCryptPasswordEncoder
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * AuthenticationManager is responsible for performing authentication operations
+     * @param config
+     * @return AuthenticationManager from Authentication config
+     * @throws Exception
+     */
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();

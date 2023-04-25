@@ -19,6 +19,13 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
 
+    /**
+     * The SecurityFilterChain is responsible for filtering incoming requests, performing authentication and authorization,
+     * and controlling access to protected resources.
+     * @param httpSecurity used to configure the security settings
+     * @return
+     * @throws Exception
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
@@ -34,7 +41,7 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()                                          // Authentication provider
                 .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class); // We first want our filter
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class); // JwtAuthenticationFilter before the UsernamePasswordAuthenticationFilter.
         return httpSecurity.build();
     }
 }

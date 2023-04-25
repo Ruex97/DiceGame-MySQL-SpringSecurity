@@ -23,9 +23,17 @@ public class JwtService {
         return extractClaim(token, Claims::getSubject);
     }
 
+    /**
+     * This is a generic method that can be used to extract any claim from a JWT. It takes a JWT as a string and a Function
+     * that is used to extract a specific claim from the claims in the token.
+     * @param token
+     * @param claimsResolver
+     * @return Any Claim
+     * @param <T>
+     */
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-        final Claims claims = extractAllClaims(token);  // We extract all the claims
-        return claimsResolver.apply(claims);            // With function passed as parameter, we can extract any claim
+        final Claims claims = extractAllClaims(token);
+        return claimsResolver.apply(claims);
     }
 
     /**
@@ -42,6 +50,10 @@ public class JwtService {
                 .getBody();
     }
 
+    /**
+     * This is a private method that returns the secret key used to sign and verify the JWT
+     * @return secret key
+     */
     private Key getSignInKey() {
         byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
         return Keys.hmacShaKeyFor(keyBytes);
@@ -57,7 +69,7 @@ public class JwtService {
     }
 
     /**
-     * Generate a token out of our extraclaims and userDetails
+     * Generate a token out of our extra claims and userDetails
      * @param extraClaims
      * @param userDetails
      * @return
