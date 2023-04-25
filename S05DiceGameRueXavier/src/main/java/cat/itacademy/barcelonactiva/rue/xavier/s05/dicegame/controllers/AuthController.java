@@ -26,7 +26,6 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthenticationResponse> logIn (@RequestBody AuthenticationRequest request) {
-        System.out.println("messi");
         return ResponseEntity.ok(service.authenticate(request));
     }
 
